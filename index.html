@@ -24,6 +24,7 @@
     --morado-500:#C6B2F2; --morado-600:#B49AEB; --morado-700:#7C5CD6; --morado-800:#5B3E96;
     --texto:#3B2A63; --texto-suave:#6B5B8F; --texto-tenue:#9B8CC0; --linea:#F2ECFC; --linea2:#F4EFFC;
     --borde:#EADFFB; --fondo:#FBF9FE; --verde:#9FD8BE; --verde-suave:#E4F3EC; --rosa:#E39BB8;
+    --ambar:#F2B84B; --ambar-suave:#FCEFD9;
   }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--fondo);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--texto);}
@@ -34,9 +35,18 @@
   .wrap{padding:max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(48px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));max-width:1120px;margin:0 auto;}
   .banner{background:linear-gradient(180deg,var(--morado-400) 0%,var(--morado-500) 100%);border-radius:20px;padding:26px 32px;display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;}
   .banner h1{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:600;font-size:44px;line-height:1;margin:0;letter-spacing:.5px;}
-  .banner .right{display:flex;align-items:center;gap:14px;}
   .tag{font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--morado-800);font-weight:500;}
-  select.moneda{border:1px solid var(--morado-700);background:#fff;color:var(--morado-800);font-weight:700;border-radius:8px;padding:6px 8px;cursor:pointer;}
+
+  .mesnav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px;}
+  .mesnav button{width:36px;height:36px;border-radius:10px;border:1px solid var(--borde);background:#fff;color:var(--morado-800);font-size:18px;cursor:pointer;}
+  .mesnav button:hover{background:var(--morado-200);}
+  .mesnav .mes{font-family:Georgia,serif;font-style:italic;font-size:22px;min-width:220px;text-align:center;}
+
+  .tabs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+  .tabs button{flex:1;min-width:160px;border:1px solid var(--borde);background:#fff;color:var(--texto-suave);font-size:14px;font-weight:600;padding:10px 14px;border-radius:12px;cursor:pointer;}
+  .tabs button.active{background:var(--morado-700);border-color:var(--morado-700);color:#fff;}
+  .tabs .hoy{font-size:11px;font-weight:400;opacity:.85;}
+
   .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:18px;}
   .card{background:#fff;border:1px solid var(--borde);border-radius:18px;padding:22px 24px;}
   .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--linea);}
@@ -44,7 +54,12 @@
   .row .label{display:flex;align-items:center;gap:9px;font-size:15px;}
   .dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
   .valor{font-size:17px;font-weight:700;}
-  #ingresos{width:120px;text-align:right;font-size:17px;font-weight:700;color:var(--morado-800);border:1px solid var(--morado-300);background:#FAF7FF;border-radius:8px;padding:6px 10px;}
+  .num-suelo{width:130px;text-align:right;font-size:17px;font-weight:700;color:var(--morado-800);border:1px solid var(--morado-300);background:#FAF7FF;border-radius:8px;padding:6px 10px;}
+  .sueldo-split{display:flex;gap:10px;margin-top:12px;}
+  .sueldo-split .half{flex:1;background:var(--morado-100);border-radius:10px;padding:10px 12px;text-align:center;}
+  .sueldo-split .half .k{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--texto-tenue);}
+  .sueldo-split .half .v{font-size:16px;font-weight:700;}
+
   .totales .box{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;margin-top:14px;border-radius:10px;}
   .totales .gastado{background:var(--morado-100);}
   .totales .queda{background:var(--morado-200);margin-top:8px;}
@@ -56,13 +71,18 @@
   .donut{position:absolute;inset:0;border-radius:50%;}
   .donut-center{position:absolute;inset:30px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
   .donut-center .k{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--texto-tenue);}
-  .donut-center .v{font-family:Georgia,serif;font-size:32px;font-weight:600;line-height:1;}
+  .donut-center .v{font-family:Georgia,serif;font-size:30px;font-weight:600;line-height:1;}
   .donut-center .p{font-size:12px;color:var(--texto-tenue);}
-  .leyenda{display:flex;flex-direction:column;gap:12px;min-width:150px;flex:1;}
+  .leyenda{display:flex;flex-direction:column;gap:10px;min-width:150px;flex:1;}
   .leyenda .it{display:flex;align-items:center;gap:10px;}
   .leyenda .it .nombre{font-size:14px;flex:1;}
   .leyenda .it .val{font-size:14px;font-weight:700;}
-  .tabla-wrap{background:#fff;border:1px solid var(--borde);border-radius:18px;margin-top:18px;overflow-x:auto;}
+
+  .seccion-titulo{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 8px;}
+  .seccion-titulo h2{font-size:15px;font-weight:700;margin:0;}
+  .seccion-titulo .sub{font-size:12px;color:var(--texto-tenue);}
+
+  .tabla-wrap{background:#fff;border:1px solid var(--borde);border-radius:18px;overflow-x:auto;}
   .tabla{min-width:720px;}
   .trow{display:grid;grid-template-columns:40px minmax(0,1.5fr) 160px 120px 120px minmax(0,1fr) 34px;align-items:center;gap:10px;padding:4px 18px;border-bottom:1px solid var(--linea2);}
   .thead{padding:12px 18px;background:var(--morado-400);font-size:13px;font-weight:700;letter-spacing:.4px;border-bottom:none;}
@@ -79,12 +99,12 @@
   .barra-fg{display:block;height:100%;border-radius:99px;}
   .del-btn{width:26px;height:26px;border-radius:7px;border:1px solid var(--borde);background:#fff;color:#A796CC;font-size:15px;line-height:1;cursor:pointer;}
   .del-btn:hover{background:#F6EFFF;color:var(--morado-700);}
-  .acciones{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center;}
-  .btn-add{border:none;background:var(--morado-700);color:#fff;font-size:14px;font-weight:700;padding:11px 20px;border-radius:10px;cursor:pointer;}
+  .acciones{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center;}
+  .btn-add{border:none;background:var(--morado-700);color:#fff;font-size:14px;font-weight:700;padding:9px 16px;border-radius:10px;cursor:pointer;}
   .btn-add:hover{background:#6A4AC4;}
-  .btn-reset{border:1px solid var(--morado-300);background:#fff;color:var(--texto-suave);font-size:14px;font-weight:500;padding:11px 18px;border-radius:10px;cursor:pointer;}
+  .btn-reset{border:1px solid var(--morado-300);background:#fff;color:var(--texto-suave);font-size:13px;font-weight:500;padding:9px 14px;border-radius:10px;cursor:pointer;}
   .btn-reset:hover{background:#F8F4FF;}
-  .nota{font-size:13px;color:var(--texto-tenue);margin-left:auto;}
+  .nota{font-size:12px;color:var(--texto-tenue);margin-top:18px;text-align:center;}
 </style>
 </head>
 <body>
@@ -92,23 +112,34 @@
 
   <div class="banner">
     <h1>Control de gastos</h1>
-    <div class="right">
-      <span class="tag">plantilla mensual</span>
-    </div>
+    <span class="tag">plantilla mensual</span>
   </div>
+
+  <div class="mesnav">
+    <button id="mes-prev">‹</button>
+    <span class="mes" id="mes-label"></span>
+    <button id="mes-next">›</button>
+  </div>
+
+  <div class="tabs" id="tabs-quincena"></div>
 
   <div class="grid2">
     <div class="card">
       <div class="row">
-        <span style="font-size:15px;font-weight:500;">Ingresos</span>
-        <input type="number" id="ingresos" />
+        <span style="font-size:15px;font-weight:500;">Sueldo total del mes</span>
+        <input type="number" id="sueldo" class="num-suelo" />
       </div>
-      <div class="row"><span class="label"><span class="dot" style="background:#7C5CD6"></span>Gastos fijos</span><span class="valor" id="v-fijos"></span></div>
+      <div class="sueldo-split">
+        <div class="half"><div class="k">Quincena 1</div><div class="v" id="sueldo-q1"></div></div>
+        <div class="half"><div class="k">Quincena 2</div><div class="v" id="sueldo-q2"></div></div>
+      </div>
+      <div class="row" style="margin-top:8px;"><span class="label"><span class="dot" style="background:#7C5CD6"></span>Gastos fijos</span><span class="valor" id="v-fijos"></span></div>
       <div class="row"><span class="label"><span class="dot" style="background:#B49AEB"></span>Ocio</span><span class="valor" id="v-ocio"></span></div>
       <div class="row"><span class="label"><span class="dot" style="background:#9FD8BE"></span>Ahorro</span><span class="valor" id="v-ahorro"></span></div>
+      <div class="row"><span class="label"><span class="dot" style="background:#F2B84B"></span>Créditos</span><span class="valor" id="v-creditos"></span></div>
       <div class="totales">
-        <div class="box gastado"><span>Total gastado</span><span id="v-total"></span></div>
-        <div class="box queda"><span>Queda por gastar</span><span id="v-queda"></span></div>
+        <div class="box gastado"><span>Total gastado (quincena)</span><span id="v-total"></span></div>
+        <div class="box queda"><span>Queda por gastar (quincena)</span><span id="v-queda"></span></div>
       </div>
     </div>
 
@@ -125,6 +156,10 @@
     </div>
   </div>
 
+  <div class="seccion-titulo">
+    <h2>Gastos mensuales</h2>
+    <span class="sub">se aplican una vez al mes (se reparten a la mitad entre las dos quincenas)</span>
+  </div>
   <div class="tabla-wrap">
     <div class="tabla">
       <div class="trow thead">
@@ -132,26 +167,56 @@
         <span class="tright">Presupuesto</span><span class="tright">Actual</span>
         <span class="barra-pad">Progreso</span><span></span>
       </div>
-      <div id="filas"></div>
+      <div id="filas-mensuales"></div>
       <div class="trow tfoot">
-        <span></span><span>Total</span><span></span>
-        <span class="tright" id="v-totalpresu"></span>
-        <span class="tright" id="v-total3"></span>
+        <span></span><span>Total mensual</span><span></span>
+        <span class="tright" id="v-totalpresu-m"></span>
+        <span class="tright" id="v-total-m"></span>
         <span></span><span></span>
       </div>
     </div>
   </div>
-
   <div class="acciones">
-    <button class="btn-add" id="btn-add">+ Añadir fila</button>
-    <button class="btn-reset" id="btn-reset">Restablecer plantilla</button>
-    <span class="nota">Todo se guarda automáticamente en este dispositivo.</span>
+    <button class="btn-add" id="btn-add-mensual">+ Añadir gasto mensual</button>
   </div>
+
+  <div class="seccion-titulo">
+    <h2 id="titulo-quincena">Gastos de la quincena</h2>
+    <span class="sub" id="rango-quincena"></span>
+  </div>
+  <div class="tabla-wrap">
+    <div class="tabla">
+      <div class="trow thead">
+        <span></span><span>Tipo</span><span>Categoría</span>
+        <span class="tright">Presupuesto</span><span class="tright">Actual</span>
+        <span class="barra-pad">Progreso</span><span></span>
+      </div>
+      <div id="filas-quincena"></div>
+      <div class="trow tfoot">
+        <span></span><span>Total quincena</span><span></span>
+        <span class="tright" id="v-totalpresu-q"></span>
+        <span class="tright" id="v-total-q"></span>
+        <span></span><span></span>
+      </div>
+    </div>
+  </div>
+  <div class="acciones">
+    <button class="btn-add" id="btn-add-quincena">+ Añadir gasto de quincena</button>
+    <button class="btn-reset" id="btn-reset">Restablecer este mes</button>
+  </div>
+
+  <div class="nota">Todo se guarda automáticamente en este dispositivo, mes a mes.</div>
 
 </div>
 
 <script>
 (function(){
+  const KEY = "cg-morado-v2";
+  const KEY_OLD = "cg-morado-v1";
+  const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  const CATS = ["Gasto fijo","Ocio","Ahorro","Créditos"];
+  const CAT_COLOR = { "Gasto fijo":"#7C5CD6", "Ocio":"#B49AEB", "Ahorro":"#9FD8BE", "Créditos":"#F2B84B" };
+  const CAT_BG = { "Gasto fijo":"#EDE4FC", "Ocio":"#F3E9FF", "Ahorro":"#E4F3EC", "Créditos":"#FCEFD9" };
   const BASE = [
     ["Casa","Gasto fijo",460,450,true],
     ["Comida","Gasto fijo",240,215,true],
@@ -169,29 +234,56 @@
     ["Belleza","Ocio",30,30,false],
     ["Ahorro mensual","Ahorro",300,300,false]
   ];
-  const KEY = "cg-morado-v1";
-  const CAT_COLOR = { "Gasto fijo":"#7C5CD6", "Ocio":"#B49AEB", "Ahorro":"#9FD8BE" };
 
-  function defaultState(){
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function hoy(){ return new Date(); }
+  function monthKey(d){ return d.getFullYear() + "-" + pad2(d.getMonth()+1); }
+  function ultimoDia(year, monthIndex0){ return new Date(year, monthIndex0+1, 0).getDate(); }
+  function quincenaDeHoy(){ return hoy().getDate() <= 15 ? 1 : 2; }
+
+  function nuevoMes(seed){
     return {
-      ingresos: 1500,
-      filas: BASE.map((r,i)=>({ id:i+1, tipo:r[0], cat:r[1], presu:r[2], actual:r[3], pagado:r[4] }))
+      sueldo: 1500,
+      gastosMensuales: seed ? BASE.slice(0,3).map((r,i)=>({ id:"m"+(i+1), tipo:r[0], cat:r[1], presu:r[2], actual:r[3], pagado:r[4] })) : [],
+      q1: seed ? BASE.slice(3,9).map((r,i)=>({ id:"q1-"+(i+1), tipo:r[0], cat:r[1], presu:r[2], actual:r[3], pagado:r[4] })) : [],
+      q2: seed ? BASE.slice(9,15).map((r,i)=>({ id:"q2-"+(i+1), tipo:r[0], cat:r[1], presu:r[2], actual:r[3], pagado:r[4] })) : []
     };
   }
 
-  let state = defaultState();
+  let store = { months: {} };
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const d = JSON.parse(raw);
-      if (d && Array.isArray(d.filas)) {
-        state = { ingresos: d.ingresos ?? 1500, filas: d.filas };
+      if (d && d.months) store = d;
+    } else {
+      // Migración desde la versión anterior (una sola lista, sin meses/quincenas):
+      // los datos existentes se colocan en el mes y quincena actuales para no perderlos.
+      const oldRaw = localStorage.getItem(KEY_OLD);
+      if (oldRaw) {
+        const old = JSON.parse(oldRaw);
+        if (old && Array.isArray(old.filas)) {
+          const mk = monthKey(hoy());
+          const q = quincenaDeHoy();
+          const mes = nuevoMes(false);
+          mes.sueldo = old.ingresos ?? 1500;
+          mes[ "q" + q ] = old.filas;
+          store.months[mk] = mes;
+        }
       }
     }
   } catch(e){}
 
+  let viewMonth = monthKey(hoy());
+  let viewQuincena = quincenaDeHoy();
+
+  function getMes(mk){
+    if (!store.months[mk]) store.months[mk] = nuevoMes(Object.keys(store.months).length === 0);
+    return store.months[mk];
+  }
+
   function save(){
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){}
     render();
   }
 
@@ -201,28 +293,54 @@
   }
 
   function render(){
-    const filas = state.filas;
-    const ingresos = Number(state.ingresos) || 0;
-    const sum = c => filas.filter(f=>f.cat===c).reduce((a,f)=>a+(Number(f.actual)||0),0);
-    const fijos = sum("Gasto fijo"), ocio = sum("Ocio"), ahorro = sum("Ahorro");
-    const total = fijos + ocio + ahorro;
-    const queda = ingresos - total;
-    const totalPresu = filas.reduce((a,f)=>a+(Number(f.presu)||0),0);
-    const maxRow = Math.max(1, ...filas.map(f=>Math.max(Number(f.actual)||0, Number(f.presu)||0)));
+    const mes = getMes(viewMonth);
+    const [y, m] = viewMonth.split("-").map(Number);
+    document.getElementById("mes-label").textContent = MESES[m-1] + " " + y;
 
-    document.getElementById("ingresos").value = state.ingresos;
+    // pestañas de quincena
+    const ultimo = ultimoDia(y, m-1);
+    const tabsEl = document.getElementById("tabs-quincena");
+    tabsEl.innerHTML = "";
+    [1,2].forEach(q=>{
+      const btn = document.createElement("button");
+      const esHoy = (viewMonth === monthKey(hoy())) && (q === quincenaDeHoy());
+      btn.className = q === viewQuincena ? "active" : "";
+      btn.innerHTML = "Quincena " + q + " (" + (q===1 ? "1-15" : "16-"+ultimo) + ")" + (esHoy ? " <span class='hoy'>· hoy</span>" : "");
+      btn.addEventListener("click", () => { viewQuincena = q; render(); });
+      tabsEl.appendChild(btn);
+    });
+
+    // sueldo
+    document.getElementById("sueldo").value = mes.sueldo;
+    const half1 = Math.floor((Number(mes.sueldo)||0) / 2);
+    const half2 = (Number(mes.sueldo)||0) - half1;
+    document.getElementById("sueldo-q1").textContent = money(half1);
+    document.getElementById("sueldo-q2").textContent = money(half2);
+    const ingresoQuincena = viewQuincena === 1 ? half1 : half2;
+
+    const qFilas = mes["q" + viewQuincena];
+    const mFilas = mes.gastosMensuales;
+
+    // total por categoría: gasto de la quincena + mitad de lo mensual
+    const sumQ = c => qFilas.filter(f=>f.cat===c).reduce((a,f)=>a+(Number(f.actual)||0),0);
+    const sumM = c => mFilas.filter(f=>f.cat===c).reduce((a,f)=>a+(Number(f.actual)||0),0);
+    const catTotal = c => sumQ(c) + sumM(c)/2;
+
+    const fijos = catTotal("Gasto fijo"), ocio = catTotal("Ocio"), ahorro = catTotal("Ahorro"), creditos = catTotal("Créditos");
+    const total = fijos + ocio + ahorro + creditos;
+    const queda = ingresoQuincena - total;
+
     document.getElementById("v-fijos").textContent = money(fijos);
     document.getElementById("v-ocio").textContent = money(ocio);
     document.getElementById("v-ahorro").textContent = money(ahorro);
+    document.getElementById("v-creditos").textContent = money(creditos);
     document.getElementById("v-total").textContent = money(total);
     document.getElementById("v-total2").textContent = money(total);
-    document.getElementById("v-total3").textContent = money(total);
     document.getElementById("v-queda").textContent = money(queda);
-    document.getElementById("v-totalpresu").textContent = money(totalPresu);
-    document.getElementById("v-pct").textContent = (ingresos ? Math.round((total/ingresos)*100) : 0) + "% de ingresos";
+    document.getElementById("v-pct").textContent = (ingresoQuincena ? Math.round((total/ingresoQuincena)*100) : 0) + "% de ingresos";
 
-    const base = Math.max(ingresos, total) || 1;
-    const parts = [[fijos,"#7C5CD6"],[ocio,"#B49AEB"],[ahorro,"#9FD8BE"],[Math.max(queda,0),"#EDE4FC"]];
+    const base = Math.max(ingresoQuincena, total) || 1;
+    const parts = [[fijos,"#7C5CD6"],[ocio,"#B49AEB"],[ahorro,"#9FD8BE"],[creditos,"#F2B84B"],[Math.max(queda,0),"#EDE4FC"]];
     let acc = 0;
     const stops = parts.map(([v,c])=>{
       const from = (acc/base)*100; acc += v;
@@ -236,6 +354,7 @@
       {nombre:"Gastos fijos",color:"#7C5CD6",valor:money(fijos)},
       {nombre:"Ocio",color:"#B49AEB",valor:money(ocio)},
       {nombre:"Ahorro",color:"#9FD8BE",valor:money(ahorro)},
+      {nombre:"Créditos",color:"#F2B84B",valor:money(creditos)},
       {nombre:"Disponible",color:"#EDE4FC",valor:money(Math.max(queda,0))}
     ].forEach(l=>{
       const div = document.createElement("div");
@@ -244,46 +363,102 @@
       leyendaEl.appendChild(div);
     });
 
-    const filasEl = document.getElementById("filas");
-    filasEl.innerHTML = "";
+    document.getElementById("rango-quincena").textContent =
+      "Quincena " + viewQuincena + " · " + (viewQuincena===1 ? "1 al 15" : "16 al " + ultimo) + " de " + MESES[m-1];
+
+    renderTabla("filas-mensuales", mFilas, patchFactory("gastosMensuales"), borrarFactory("gastosMensuales"));
+    renderTabla("filas-quincena", qFilas, patchFactory("q"+viewQuincena), borrarFactory("q"+viewQuincena));
+
+    const totalPresuM = mFilas.reduce((a,f)=>a+(Number(f.presu)||0),0);
+    const totalActualM = mFilas.reduce((a,f)=>a+(Number(f.actual)||0),0);
+    document.getElementById("v-totalpresu-m").textContent = money(totalPresuM);
+    document.getElementById("v-total-m").textContent = money(totalActualM);
+
+    const totalPresuQ = qFilas.reduce((a,f)=>a+(Number(f.presu)||0),0);
+    const totalActualQ = qFilas.reduce((a,f)=>a+(Number(f.actual)||0),0);
+    document.getElementById("v-totalpresu-q").textContent = money(totalPresuQ);
+    document.getElementById("v-total-q").textContent = money(totalActualQ);
+  }
+
+  function patchFactory(listKey){
+    return (id, key, val) => {
+      const mes = getMes(viewMonth);
+      const list = mes[listKey];
+      const f = list.find(x=>x.id===id);
+      if (f) { f[key] = val; save(); }
+    };
+  }
+  function borrarFactory(listKey){
+    return (id) => {
+      const mes = getMes(viewMonth);
+      mes[listKey] = mes[listKey].filter(x=>x.id!==id);
+      save();
+    };
+  }
+
+  function renderTabla(containerId, filas, patch, borrar){
+    const maxRow = Math.max(1, ...filas.map(f=>Math.max(Number(f.actual)||0, Number(f.presu)||0)));
+    const el = document.getElementById(containerId);
+    el.innerHTML = "";
     filas.forEach(f=>{
       const over = (Number(f.actual)||0) > (Number(f.presu)||0);
       const barColor = over ? "#E39BB8" : (CAT_COLOR[f.cat] || "#7C5CD6");
       const barW = Math.min(100, ((Number(f.actual)||0)/maxRow)*100).toFixed(1) + "%";
       const row = document.createElement("div");
       row.className = "trow";
+      const opciones = CATS.map(c => `<option value="${c}" ${f.cat===c?"selected":""}>${c}</option>`).join("");
       row.innerHTML = `
         <input type="checkbox" class="chk" ${f.pagado ? "checked" : ""}>
-        <input type="text" class="tipo-input" placeholder="Concepto" value="${f.tipo.replace(/"/g,'&quot;')}" style="text-decoration:${f.pagado ? "line-through" : "none"}">
-        <select class="cat-select" style="background:${f.cat === "Gasto fijo" ? "#EDE4FC" : f.cat === "Ocio" ? "#F3E9FF" : "#E4F3EC"}">
-          <option value="Gasto fijo" ${f.cat==="Gasto fijo"?"selected":""}>Gasto fijo</option>
-          <option value="Ocio" ${f.cat==="Ocio"?"selected":""}>Ocio</option>
-          <option value="Ahorro" ${f.cat==="Ahorro"?"selected":""}>Ahorro</option>
-        </select>
+        <input type="text" class="tipo-input" placeholder="Concepto" value="${(f.tipo||"").replace(/"/g,'&quot;')}" style="text-decoration:${f.pagado ? "line-through" : "none"}">
+        <select class="cat-select" style="background:${CAT_BG[f.cat] || "#FFFFFF"}">${opciones}</select>
         <input type="number" class="num-input presu" value="${f.presu}">
         <input type="number" class="num-input actual" value="${f.actual}">
         <span class="barra-pad"><span class="barra-bg"><span class="barra-fg" style="width:${barW};background:${barColor}"></span></span></span>
         <button class="del-btn" title="Eliminar fila">×</button>
       `;
       const [chk, tipoInput, catSelect, presuInput, actualInput, , delBtn] = row.children;
-      chk.addEventListener("change", e => { f.pagado = e.target.checked; save(); });
-      tipoInput.addEventListener("change", e => { f.tipo = e.target.value; save(); });
-      catSelect.addEventListener("change", e => { f.cat = e.target.value; save(); });
-      presuInput.addEventListener("change", e => { f.presu = Number(e.target.value)||0; save(); });
-      actualInput.addEventListener("change", e => { f.actual = Number(e.target.value)||0; save(); });
-      delBtn.addEventListener("click", () => { state.filas = state.filas.filter(x=>x.id!==f.id); save(); });
-      filasEl.appendChild(row);
+      chk.addEventListener("change", e => patch(f.id, "pagado", e.target.checked));
+      tipoInput.addEventListener("change", e => patch(f.id, "tipo", e.target.value));
+      catSelect.addEventListener("change", e => patch(f.id, "cat", e.target.value));
+      presuInput.addEventListener("change", e => patch(f.id, "presu", Number(e.target.value)||0));
+      actualInput.addEventListener("change", e => patch(f.id, "actual", Number(e.target.value)||0));
+      delBtn.addEventListener("click", () => borrar(f.id));
+      el.appendChild(row);
     });
   }
 
-  document.getElementById("ingresos").addEventListener("change", e => { state.ingresos = Number(e.target.value)||0; save(); });
-  document.getElementById("btn-add").addEventListener("click", () => {
-    state.filas.push({ id: Date.now(), tipo:"", cat:"Gasto fijo", presu:0, actual:0, pagado:false });
+  document.getElementById("mes-prev").addEventListener("click", () => {
+    const [y,m] = viewMonth.split("-").map(Number);
+    const d = new Date(y, m-2, 1);
+    viewMonth = monthKey(d);
+    viewQuincena = (viewMonth === monthKey(hoy())) ? quincenaDeHoy() : 1;
+    render();
+  });
+  document.getElementById("mes-next").addEventListener("click", () => {
+    const [y,m] = viewMonth.split("-").map(Number);
+    const d = new Date(y, m, 1);
+    viewMonth = monthKey(d);
+    viewQuincena = (viewMonth === monthKey(hoy())) ? quincenaDeHoy() : 1;
+    render();
+  });
+
+  document.getElementById("sueldo").addEventListener("change", e => {
+    getMes(viewMonth).sueldo = Number(e.target.value)||0;
+    save();
+  });
+
+  document.getElementById("btn-add-mensual").addEventListener("click", () => {
+    getMes(viewMonth).gastosMensuales.push({ id: "m-"+Date.now(), tipo:"", cat:"Gasto fijo", presu:0, actual:0, pagado:false });
+    save();
+  });
+  document.getElementById("btn-add-quincena").addEventListener("click", () => {
+    const mes = getMes(viewMonth);
+    mes["q"+viewQuincena].push({ id: "q-"+Date.now(), tipo:"", cat:"Gasto fijo", presu:0, actual:0, pagado:false });
     save();
   });
   document.getElementById("btn-reset").addEventListener("click", () => {
-    if (confirm("¿Restablecer la plantilla a sus valores por defecto? Se perderán los cambios.")) {
-      state = defaultState();
+    if (confirm("¿Restablecer " + document.getElementById("mes-label").textContent + "? Se perderán sueldo y gastos de ese mes.")) {
+      store.months[viewMonth] = nuevoMes(false);
       save();
     }
   });
